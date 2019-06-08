@@ -5,8 +5,8 @@ node {
         checkout scm;
     }
 
-    def DOCKER_CONTEXT = "${WORKSPACE}"
     def REPO_NAME = "shippingservice"
+    def DOCKER_CONTEXT = "${WORKSPACE}"
 
     env.BRANCH_NAME = env.BRANCH_NAME ? env.BRANCH_NAME : 'master';
     def imageOwner = "dmitrybuhtiyarov"
@@ -23,7 +23,7 @@ node {
         stage('Build for security scan') {
             image = docker.build("${imageName}:${securityScanTag}", DOCKER_CONTEXT);
         }
-        image.inside("--entrypoint=''") {
+        image('8u212-b04-jdk-slim-stretch').inside("--entrypoint=''") {
             stage('Sonarqube') {
                 withSonarQubeEnv('sonarqube') {
                     def scannerHome = tool name: 'sonarqube'
