@@ -6,7 +6,7 @@ node {
     }
 
     def DOCKER_CONTEXT = "${WORKSPACE}"
-    def REPO_NAME = "${WORKSPACE}".split('/').last()
+    def REPO_NAME = "shippingservice"
 
     env.BRANCH_NAME = env.BRANCH_NAME ? env.BRANCH_NAME : 'master';
     def imageOwner = "dmitrybuhtiyarov"
