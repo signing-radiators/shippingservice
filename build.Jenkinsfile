@@ -5,8 +5,8 @@ node {
         checkout scm;
     }
 
-    def REPO_NAME = "adservice"
     def DOCKER_CONTEXT = "${WORKSPACE}"
+    def REPO_NAME = "${WORKSPACE}".split('/').last()
 
     env.BRANCH_NAME = env.BRANCH_NAME ? env.BRANCH_NAME : 'master';
     def imageOwner = "dmitrybuhtiyarov"
