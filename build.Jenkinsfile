@@ -23,23 +23,6 @@ node {
         stage('Build for security scan') {
             image = docker.build("${imageName}:${securityScanTag}", DOCKER_CONTEXT);
         }
-        image('8u212-b04-jdk-slim-stretch').inside("--entrypoint=''") {
-            stage('Sonarqube') {
-                withSonarQubeEnv('sonarqube') {
-                    def scannerHome = tool name: 'sonarqube'
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-            }
-
-            stage("Quality Gate") {
-                timeout(time: 5, unit: 'MINUTES') {
-                    def qg = waitForQualityGate()
-                    if (qg.status != 'OK') {
-                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                    }
-                }
-            }
-        }
 
         stage('Push for security scan') {
             image.push();
